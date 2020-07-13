@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'altProje.apps.AltprojeConfig',
+    'altProje.apps.AltprojeConfig', ##Alt uygulamamızı ekliyoruz.
+    'rest_framework', ##Rest framework'ü ekliyoruz
 ]
 
 MIDDLEWARE = [
