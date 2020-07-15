@@ -20,7 +20,7 @@ from altProje import views
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
-    path('altproje/', views.CariListesi.as_view()),
+    path('', include('altProje.urls')),
     path('admin/', admin.site.urls),
 ]
 
