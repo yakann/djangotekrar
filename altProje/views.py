@@ -4,24 +4,63 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # Rest Api
 # from rest_framework.views import APIView
-# from rest_framework.response import Response
-# from rest_framework import status, viewsets
+
  
 
 from django.views.decorators.csrf import csrf_exempt
 
 from .serializers import CariSerializer, CariAdresSerializer
 from .models import Cari,CariAdres
-from rest_framework.parsers import JSONParser
-from django.http import HttpResponse, JsonResponse
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.views import APIView
 
+
+#CLASS BASED VIEW
+class CariListesi(APIView):
+
+    def get(self, request):
+            queryset = Cari.objects.all()
+            serializer = CariSerializer(queryset, many=True)
+            return Response(serializer.data)
+    def post(self, request):
+            serializer = CariSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CariDetails(APIView):
+
+    def get_object(self, id):
+        try:
+            return Cari.objects.get(id=id)
+        except Cari.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def get(self, request, id):
+        cari = self.get_object(id)
+        serializer = CariSerializer(cari)
+        return Response(serializer.data)
+
+    def put(self, request):
+        cari = self.get_object(id)
+        serializer = CariSerializer(cari, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        cari = self.get_object(id)
+        cari.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+#FUNCTION BASED VİEW
 @api_view(['GET', 'POST'])
 @csrf_exempt
-def cari_list(request):
+def cari_list(request, format=None):
 
     if request.method == 'GET':
         queryset = Cari.objects.all()
@@ -37,7 +76,7 @@ def cari_list(request):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 @csrf_exempt
-def cari_detail(request, pk):
+def cari_detail(request, pk, format=None):
 
     try:
         cari = Cari.objects.get(pk=pk)

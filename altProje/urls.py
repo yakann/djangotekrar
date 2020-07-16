@@ -1,9 +1,13 @@
 from django.urls import path
-
-from .views import cari_list, cari_detail
+from rest_framework.urlpatterns import format_suffix_patterns
+from .views import cari_list, cari_detail, CariListesi, CariDetails
 
 
 urlpatterns = [
-    path('altproje/', cari_list),
-    path('altproje/<uuid:pk>/', cari_detail),
+    #path('altproje/', views.cari_list),
+    path('altproje/', CariListesi.as_view()),
+    #path('altproje/<uuid:pk>/', cari_detail),
+    path('altproje/<uuid:pk>/', CariDetails.as_view()),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
