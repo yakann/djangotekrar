@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'altProje.apps.AltprojeConfig', ##Alt uygulamamızı ekliyoruz.
     'rest_framework', ##Rest framework'ü ekliyoruz
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
