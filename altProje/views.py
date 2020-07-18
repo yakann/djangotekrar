@@ -21,7 +21,45 @@ from rest_framework import mixins
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-#GENERİC VIEWS
+from rest_framework import viewsets
+
+from django.shortcuts import get_object_or_404
+#VIEWSET AND ROUTERS
+class CariViewSet(viewsets.ViewSet):
+    def list(self, request):
+        queryset = Cari.objects.all()
+        serializer = CariSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = CariSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None):
+        queryset = Cari.objects.all()
+        cariler = get_object_or_404(queryset, pk=pk)
+        serializer = CariSerializer(cariler)
+        return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        cari = CariListesi.objects.get(pk=pk)
+        serializer = CariSerializer(cari, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def partial_update(self, request, pk=None):
+        pass
+
+    def destroy(self, request, pk=None):
+        pass
+
+
+#GENERİC VIEWS and AUTHENTICATION
 
 class GenericCariListesi(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
     serializer_class = CariSerializer
