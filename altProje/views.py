@@ -24,6 +24,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 
 from django.shortcuts import get_object_or_404
+
+#GenericViewset, Viewset, GenericApiView, ClassBasedView(ApiView), FunctionBaseView
+
+#GENERIC VIEWSET
+class CariGenericViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
+    serializer_class = CariSerializer
+    queryset = Cari.objects.all()
+
+
 #VIEWSET AND ROUTERS
 class CariViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -51,13 +60,6 @@ class CariViewSet(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def partial_update(self, request, pk=None):
-        pass
-
-    def destroy(self, request, pk=None):
-        pass
-
 
 #GENERİC VIEWS and AUTHENTICATION
 
