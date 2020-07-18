@@ -25,13 +25,17 @@ from rest_framework import viewsets
 
 from django.shortcuts import get_object_or_404
 
-#GenericViewset, Viewset, GenericApiView, ClassBasedView(ApiView), FunctionBaseView
+#ModelViewset, GenericViewset, Viewset, GenericApiView, ClassBasedView(ApiView), FunctionBaseView
+
+#MODEL VIEWSET
+class CariModelViewSet(viewsets.ModelViewSet):
+    serializer_class = CariSerializer
+    queryset = Cari.objects.all()
 
 #GENERIC VIEWSET
 class CariGenericViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
     serializer_class = CariSerializer
     queryset = Cari.objects.all()
-
 
 #VIEWSET AND ROUTERS
 class CariViewSet(viewsets.ViewSet):

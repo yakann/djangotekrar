@@ -1,11 +1,12 @@
 from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import cari_list, cari_detail, CariListesi, CariDetails, GenericCariListesi, CariViewSet, CariGenericViewSet
+from .views import cari_list, cari_detail, CariListesi, CariDetails, GenericCariListesi, CariViewSet, CariGenericViewSet, CariModelViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 #router.register('cariler', CariViewSet, basename='cariler')
-router.register('cariler', CariGenericViewSet, basename='cariler')
+#router.register('cariler', CariGenericViewSet, basename='cariler')
+router.register('cariler', CariModelViewSet, basename='cariler')
 
 urlpatterns = [
     path('viewset/', include(router.urls)),
